@@ -1,11 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "posts",
+  "collectionName": "projects",
   "info": {
-    "singularName": "post",
-    "pluralName": "posts",
-    "displayName": "Post",
-    "description": ""
+    "singularName": "project",
+    "pluralName": "projects",
+    "displayName": "Project"
   },
   "options": {
     "draftAndPublish": true
@@ -25,27 +24,26 @@
       "type": "boolean"
     },
     "Image": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ]
+      ],
+      "type": "media",
+      "multiple": false
     },
     "author": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::author.author",
-      "inversedBy": "posts"
+      "inversedBy": "projects"
     },
     "tags": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::tag.tag",
-      "inversedBy": "posts"
+      "inversedBy": "projects"
     }
   }
 }

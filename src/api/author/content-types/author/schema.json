@@ -19,6 +19,12 @@
       "relation": "oneToMany",
       "target": "api::post.post",
       "mappedBy": "author"
+    },
+    "projects": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::project.project",
+      "mappedBy": "author"
     }
   }
 }

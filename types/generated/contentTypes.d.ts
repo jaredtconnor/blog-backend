@@ -638,6 +638,27 @@ export interface PluginI18NLocale extends Schema.CollectionType {
   }
 }
 
+export interface ApiAboutAbout extends Schema.SingleType {
+  collectionName: 'abouts'
+  info: {
+    singularName: 'about'
+    pluralName: 'abouts'
+    displayName: 'About'
+  }
+  options: {
+    draftAndPublish: true
+  }
+  attributes: {
+    Content: Attribute.Text
+    Portrait: Attribute.Media
+    createdAt: Attribute.DateTime
+    updatedAt: Attribute.DateTime
+    publishedAt: Attribute.DateTime
+    createdBy: Attribute.Relation<'api::about.about', 'oneToOne', 'admin::user'> & Attribute.Private
+    updatedBy: Attribute.Relation<'api::about.about', 'oneToOne', 'admin::user'> & Attribute.Private
+  }
+}
+
 export interface ApiAuthorAuthor extends Schema.CollectionType {
   collectionName: 'authors'
   info: {
@@ -651,6 +672,7 @@ export interface ApiAuthorAuthor extends Schema.CollectionType {
   attributes: {
     Name: Attribute.String
     posts: Attribute.Relation<'api::author.author', 'oneToMany', 'api::post.post'>
+    projects: Attribute.Relation<'api::author.author', 'oneToMany', 'api::project.project'>
     createdAt: Attribute.DateTime
     updatedAt: Attribute.DateTime
     publishedAt: Attribute.DateTime
@@ -661,27 +683,25 @@ export interface ApiAuthorAuthor extends Schema.CollectionType {
   }
 }
 
-export interface ApiCategoryCategory extends Schema.CollectionType {
-  collectionName: 'categories'
+export interface ApiHomeHome extends Schema.SingleType {
+  collectionName: 'homes'
   info: {
-    singularName: 'category'
-    pluralName: 'categories'
-    displayName: 'Category'
+    singularName: 'home'
+    pluralName: 'homes'
+    displayName: 'Home'
   }
   options: {
     draftAndPublish: true
   }
   attributes: {
-    Name: Attribute.String
-    slug: Attribute.UID
-    posts: Attribute.Relation<'api::category.category', 'oneToMany', 'api::post.post'>
+    Content: Attribute.Text
+    Logo: Attribute.Media
+    Portrait: Attribute.Media
     createdAt: Attribute.DateTime
     updatedAt: Attribute.DateTime
     publishedAt: Attribute.DateTime
-    createdBy: Attribute.Relation<'api::category.category', 'oneToOne', 'admin::user'> &
-      Attribute.Private
-    updatedBy: Attribute.Relation<'api::category.category', 'oneToOne', 'admin::user'> &
-      Attribute.Private
+    createdBy: Attribute.Relation<'api::home.home', 'oneToOne', 'admin::user'> & Attribute.Private
+    updatedBy: Attribute.Relation<'api::home.home', 'oneToOne', 'admin::user'> & Attribute.Private
   }
 }
 
@@ -691,6 +711,7 @@ export interface ApiPostPost extends Schema.CollectionType {
     singularName: 'post'
     pluralName: 'posts'
     displayName: 'Post'
+    description: ''
   }
   options: {
     draftAndPublish: true
@@ -702,12 +723,40 @@ export interface ApiPostPost extends Schema.CollectionType {
     Published: Attribute.Boolean
     Image: Attribute.Media
     author: Attribute.Relation<'api::post.post', 'manyToOne', 'api::author.author'>
-    category: Attribute.Relation<'api::post.post', 'manyToOne', 'api::category.category'>
+    tags: Attribute.Relation<'api::post.post', 'manyToMany', 'api::tag.tag'>
     createdAt: Attribute.DateTime
     updatedAt: Attribute.DateTime
     publishedAt: Attribute.DateTime
     createdBy: Attribute.Relation<'api::post.post', 'oneToOne', 'admin::user'> & Attribute.Private
     updatedBy: Attribute.Relation<'api::post.post', 'oneToOne', 'admin::user'> & Attribute.Private
+  }
+}
+
+export interface ApiProjectProject extends Schema.CollectionType {
+  collectionName: 'projects'
+  info: {
+    singularName: 'project'
+    pluralName: 'projects'
+    displayName: 'Project'
+  }
+  options: {
+    draftAndPublish: true
+  }
+  attributes: {
+    Title: Attribute.String
+    Content: Attribute.Blocks
+    Excerpt: Attribute.Text
+    Published: Attribute.Boolean
+    Image: Attribute.Media
+    author: Attribute.Relation<'api::project.project', 'manyToOne', 'api::author.author'>
+    tags: Attribute.Relation<'api::project.project', 'manyToMany', 'api::tag.tag'>
+    createdAt: Attribute.DateTime
+    updatedAt: Attribute.DateTime
+    publishedAt: Attribute.DateTime
+    createdBy: Attribute.Relation<'api::project.project', 'oneToOne', 'admin::user'> &
+      Attribute.Private
+    updatedBy: Attribute.Relation<'api::project.project', 'oneToOne', 'admin::user'> &
+      Attribute.Private
   }
 }
 
@@ -723,6 +772,8 @@ export interface ApiTagTag extends Schema.CollectionType {
   }
   attributes: {
     Name: Attribute.String
+    projects: Attribute.Relation<'api::tag.tag', 'manyToMany', 'api::project.project'>
+    posts: Attribute.Relation<'api::tag.tag', 'manyToMany', 'api::post.post'>
     createdAt: Attribute.DateTime
     updatedAt: Attribute.DateTime
     publishedAt: Attribute.DateTime
@@ -749,9 +800,11 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole
       'plugin::users-permissions.user': PluginUsersPermissionsUser
       'plugin::i18n.locale': PluginI18NLocale
+      'api::about.about': ApiAboutAbout
       'api::author.author': ApiAuthorAuthor
-      'api::category.category': ApiCategoryCategory
+      'api::home.home': ApiHomeHome
       'api::post.post': ApiPostPost
+      'api::project.project': ApiProjectProject
       'api::tag.tag': ApiTagTag
     }
   }

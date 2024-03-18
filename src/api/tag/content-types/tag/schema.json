@@ -13,6 +13,18 @@
   "attributes": {
     "Name": {
       "type": "string"
+    },
+    "projects": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::project.project",
+      "mappedBy": "tags"
+    },
+    "posts": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::post.post",
+      "mappedBy": "tags"
     }
   }
 }
