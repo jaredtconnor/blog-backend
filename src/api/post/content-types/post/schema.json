@@ -15,9 +15,6 @@
     "Title": {
       "type": "string"
     },
-    "Content": {
-      "type": "blocks"
-    },
     "Excerpt": {
       "type": "text"
     },
@@ -46,6 +43,12 @@
       "relation": "manyToMany",
       "target": "api::tag.tag",
       "inversedBy": "posts"
+    },
+    "Published_Date": {
+      "type": "date"
+    },
+    "Content": {
+      "type": "richtext"
     }
   }
 }

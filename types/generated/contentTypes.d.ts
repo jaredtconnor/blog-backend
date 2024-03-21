@@ -718,12 +718,13 @@ export interface ApiPostPost extends Schema.CollectionType {
   }
   attributes: {
     Title: Attribute.String
-    Content: Attribute.Blocks
     Excerpt: Attribute.Text
     Published: Attribute.Boolean
     Image: Attribute.Media
     author: Attribute.Relation<'api::post.post', 'manyToOne', 'api::author.author'>
     tags: Attribute.Relation<'api::post.post', 'manyToMany', 'api::tag.tag'>
+    Published_Date: Attribute.Date
+    Content: Attribute.RichText
     createdAt: Attribute.DateTime
     updatedAt: Attribute.DateTime
     publishedAt: Attribute.DateTime
